@@ -1,0 +1,60 @@
+<% layout("/layouts/boilerplate") %>
+
+<body>
+    <br>
+    <div class="row">
+        <div class="col-8 offset-2">
+    <h3>Edit Your listing </h3>
+    <br>
+    <form method="post" action="/listings/<%= listing.id %>?_method=PUT" novalidate class="needs-validation"> 
+        <div class="mb-3">
+            <label for="Title" class="form-labael" >Title</label>
+            <input value="<%= listing.title %>" class="form-control" name="listing[title]" type="text" required> 
+            <div class="valid-feedback">Title looks good</div>
+        </div>
+        <div class="mb-3">
+            <label for="description" class="form-labael" >Description</label>
+        <textarea name="listing[description]" class="form-control" type="text" required ><%= listing.description %> 
+
+        </textarea>
+        <div class="invalid-feedback">
+            pleae enter a short  description
+        </div>   
+
+        </div>
+        <div class="mb-3">
+            <label for="image" class="form-labael" >Image</label>
+        <input value="<%= listing.image %>" class="form-control" name="listing[image]" type="text" >
+        </div>
+        <div class="row">
+        <div class="mb-3 col-4">
+            <label for="price" class="form-labael" >Price</label>
+        <input value="<%= listing.price %>" class="form-control" name="listing[price]" type="number" required>
+        <div class="invalid-feedback">
+            pleae enter valid amount
+        </div>
+        </div>
+        <div class="mb-3 col-8">
+            <label for="location" class="form-labael" >Location</label>
+        <input value="<%= listing.location %>" class="form-control" name="listing[location]" type="text" required >
+        <div class="invalid-feedback">
+            pleae enter valid location
+        </div>
+        </div>
+    </div>
+        <div class="mb-3">
+            <label for="country" class="form-labael" >Country</label>
+        <input value="<%= listing.country %>" class="form-control" name="listing[country]" type="text" required  >
+        <div class="invalid-feedback">
+            pleae enter country
+        </div>
+        </div>
+        <br>
+        <button class="btn btn-dark sub-btn">Submit</button>
+        <br>
+        <br>
+    </form>
+</div>
+</div>
+
+</body>

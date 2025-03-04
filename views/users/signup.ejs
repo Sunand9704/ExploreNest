@@ -1,0 +1,30 @@
+<% layout("./layouts/boilerplate")  %>
+<div class="row mt-3">
+    <h1 class="col-6 offset-3">Signup for ExploreNest</h1>
+    <div class="col-6 offset-3">
+        <form action="/signup" method="post" class="needs-validation" novalidate>
+            <div class="mb-3">
+                <label for="username" class="form-labael" >username</label>
+                <input placeholder="enter username" class="form-control" id="username"  name="username" type="text" required>
+                <div class="valid-feedback">Looks good</div>
+            </div>
+
+            <!--email-->
+            <div class="mb-3">
+                <label for="email" class="form-labael" >Email</label>
+                <input placeholder="enter email" class="form-control" id="email"  name="email" type="email" required>
+            </div>
+            <!--password-->
+            <div class="mb-3">
+                <label for="password" class="form-labael" >password</label>
+                <input placeholder="enter password" class="form-control" id="password"  name="password" type="password" required>
+            </div>
+            <!--Button-->
+            
+            <button class="btn btn-success ">
+                Signup
+            </button>
+
+        </form>
+    </div>
+</div>
