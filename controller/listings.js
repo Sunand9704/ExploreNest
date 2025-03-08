@@ -1,5 +1,5 @@
 const Listing = require("../models/listings.js");
-module.exports.index = async (req,res) =>{
+module.exports.index = async (req,res) => {
     let allistings = await Listing.find({});
     res.render("listings/index.ejs", {allistings});
  };
@@ -10,8 +10,8 @@ module.exports.index = async (req,res) =>{
 //3 Show Route
 async (req,res) =>{
      const id = req.params.id;
-     console.log(id);
-    let listing = await Listing.findById(id).populate({
+    
+     let listing = await Listing.findById(id).populate({
         path:"reviews", 
         populate:{
         path:"author",
@@ -23,7 +23,6 @@ async (req,res) =>{
         res.redirect("/listings");
     
     }
-    console.log(listing);
     
     res.render("listings/show.ejs", {listing} );
     listing.save();
@@ -31,7 +30,6 @@ async (req,res) =>{
  //3 show route
 module.exports.showlisting = async (req,res) =>{
     const id = req.params.id;
-    console.log(id);
    let listing = await Listing.findById(id).populate({
        path:"reviews", 
        populate:{
@@ -44,19 +42,25 @@ module.exports.showlisting = async (req,res) =>{
        res.redirect("/listings");
    
    }
-   console.log(listing);
-   
+   listing.lat = listing.latitude || 0;
+   listing.lon = listing.longitude || 0;
    res.render("listings/show.ejs", {listing} );
    listing.save();
 };
 //4 create listing
-module.exports.createlis = async (req,res,next)=>{
-    const newlist =new Listing(req.body.listing);
-    newlist.owner = req.user._id;
-    await  newlist.save();
-    req.flash("success", "New Lisiting Created");
-    res.redirect("/listings");
+module.exports.createlis = async (req, res, next) => {
+  let url = req.body.file;
+  let filename= req.body.file;
+
+  const newlisting = new Listing(req.body.listing);
+  newlisting.owner = req.user._id;
+  newlisting.image = {url,filename};
+  await newlisting.save();
+  req.flash("success", "New Listing Created");
+  res.redirect("/listings");
 };
+
+
 
 //edit form
 module.exports.editform = async (req,res) =>
@@ -68,13 +72,25 @@ module.exports.editform = async (req,res) =>
             req.flash("error", "Listing not exixted");
             res.redirect("/listings");
         }
-    res.render("listings/edit.ejs", {listing});
+
+
+        let orgimgurl = listing.image.url;
+        orgimgurl =  orgimgurl.replace("/upload", "/upload/w_250");
+    res.render("listings/edit.ejs", {listing,orgimgurl});
     };
 
 module.exports.update = async (req,res,next) =>{
 const {id} = req.params;
 
-    await Listing.findByIdAndUpdate(id, {...req.body.listing});
+    let List = await Listing.findByIdAndUpdate(id, {...req.body.listing});
+
+
+    if(typeof req.file != "undefined"){
+    let imageUrl = req.file.path; 
+    let filename = req.file.filename; 
+    List.image= {url,filename};
+    await List.save();
+    }
     req.flash("success", "Updated  Succrssfully");
     res.redirect(`/listings/${id}`);
 };

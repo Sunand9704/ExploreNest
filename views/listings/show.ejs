@@ -8,7 +8,7 @@
 
     
             <div class="card col-6 nice-card listing-card "  >
-            <img src="<%= listing.image%>" class="card-img-top show-card " alt="...">
+            <img src="<%= listing.image.url%>" class="card-img-top show-card " alt="...">
             <div class="card-body">
               <p class="card-text">Owned By
                 <i><%=listing.owner ? listing.owner.username : "Unknown Owner"%></i></p>
@@ -38,6 +38,7 @@
 
         <div  class="col-8 offset-3 mb-3">
           <% if(currenuser) {%>
+            <hr/>
  
           <h4>Leave a Review</h4>
           <form method="post" action="/listings/<%= listing._id %>/reviews" novalidate class="needs-validation">
@@ -67,8 +68,9 @@
           </form>
           <% } %>
           <hr>
-          <p><b>All Reviews</b></p>
+          <% if(listing.reviews.length>0) { %>
         <div class="row ">         
+          <p><b>All Reviews</b></p>
            <%for(review of listing.reviews) { %>
             <div class="card col-5 ms-3 ">
               <div class="card-body">
@@ -90,9 +92,37 @@
             </div>
             <% } %>
           </div>
+          <% } %>
 
         </div>
+        <div class="col-8 offset-3 mb-3">
+          <h3>Where you I'll be</h3>
+          <div id="map"></div>
 
+          <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+          <script>
+              // Get listing coordinates dynamically
+              const lat = "<%= listing.latitude %>";
+              const lon = "<%= listing.longitude %>";
+          
+              // Check if valid coordinates exist, else set default
+              const mapCenter =  [lat, lon] ;
+          
+              // Initialize Leaflet Map, center on the listing location
+              var map = L.map('map').setView(mapCenter, lat && lon ? 12 : 4); // Zoom 12 if location exists, else default zoom 4
+          
+              // Add OpenStreetMap tiles
+              L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+                  attribution: '© OpenStreetMap contributors'
+              }).addTo(map);
+          
+              // If valid coordinates exist, add a marker for the listing
+              if (lat && lon) {
+                  L.marker([lat, lon]).addTo(map)
+                      .bindPopup(`<b><%= listing.title %></b><br><%= listing.location %>, <%= listing.country %>`);
+              }
+          </script>
+          
 
 
     </body> 

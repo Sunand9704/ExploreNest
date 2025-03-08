@@ -6,7 +6,7 @@
         <div class="col-8 offset-2">
     <h3>Edit Your listing </h3>
     <br>
-    <form method="post" action="/listings/<%= listing.id %>?_method=PUT" novalidate class="needs-validation"> 
+    <form method="post" action="/listings/<%= listing.id %>?_method=PUT" novalidate class="needs-validation" enctype="multipart/form-data"> 
         <div class="mb-3">
             <label for="Title" class="form-labael" >Title</label>
             <input value="<%= listing.title %>" class="form-control" name="listing[title]" type="text" required> 
@@ -20,16 +20,23 @@
         <div class="invalid-feedback">
             pleae enter a short  description
         </div>   
-
         </div>
+
         <div class="mb-3">
-            <label for="image" class="form-labael" >Image</label>
-        <input value="<%= listing.image %>" class="form-control" name="listing[image]" type="text" >
+            Original Listing Image
+            <br>
+            <img src="<%= orgimgurl %>"/>
+        </div>
+
+
+        <div class="mb-3">
+            <label for="image" class="form-labael" >Upload New Image</label>
+        <input value="<%= listing.image %>" class="form-control" name="listing[image]" type="file" >
         </div>
         <div class="row">
         <div class="mb-3 col-4">
             <label for="price" class="form-labael" >Price</label>
-        <input value="<%= listing.price %>" class="form-control" name="listing[price]" type="number" required>
+        <input  class="form-control" name="listing[price]" type="number" required>
         <div class="invalid-feedback">
             pleae enter valid amount
         </div>

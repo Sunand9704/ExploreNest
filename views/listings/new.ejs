@@ -7,7 +7,7 @@
         <div class="col-8 offset-2">  
     <h3>Create A new listing </h3>
     <br>
-    <form method="post" action="/listings" novalidate class="needs-validation">
+    <form method="post" action="/listings" novalidate class="needs-validation" enctype="multipart/form-data"> 
             <div class="mb-3">
             <label for="Title" class="form-labael" >Title</label>
             <input placeholder="enter Name" class="form-control" name="listing[title]" type="text" required>
@@ -22,9 +22,11 @@
         </div>   
         </div>
         
+      
+
         <div class="mb-3">
-            <label for="image url" class="form-labael" >Image Url</label>
-        <input placeholder="enter image/url" class="form-control" name="listing[image]" type="text" >
+            <label for="image url" class="form-labael" >Upload File</label>
+        <input class="form-control" name="listing[image]" type="file" required>
         </div>
        
         <div class="row">

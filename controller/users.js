@@ -45,7 +45,7 @@ module.exports.login = async(req,res)=>
 
 module.exports.logout =  (req,res,next)=>
     {
-        req.logOut((error) =>{
+        req.logout((error) =>{
             if(error)
             {
                 return  next(error);

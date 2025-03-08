@@ -1,3 +1,12 @@
+
+if(process.env.NODE_ENV != "production")
+{
+    require('dotenv').config();
+}
+
+
+
+
 const express = require("express");
 const app=express();
 const port = 4000;
@@ -77,34 +86,11 @@ app.use((req,res,next) =>
     next();
 });
 
-// app.get("/demouser", async(req,res)=>
-// {
-//     const fakeUser = new User({
-//         email:"sunand@gmail.com",
-//         username:"Sunand",
-//     });
-//     let registereduser = await User.register(fakeUser, "helloworld"); 
-//     res.send(registereduser);
-// });
 
 app.use("/listings" , listings);
 app.use("/listings/:id/reviews", reviewRoutes);
 app.use("/", user);
 
-// app.get("/testlistings", async (req,res) =>{
-
-//     let sample = new Listing({
-//         title:"my new Home",
-//         description:"you can ejoy your dat here ",
-//         price:1200,
-//         location:"gujarat ",
-//         country:"INDIA",        
-//     });
-//     await sample.save();
-//     console.log("saved");
-//     res.send("test sucess");
-
-// });
 
 app.all("*", (req,res,next) =>
 {

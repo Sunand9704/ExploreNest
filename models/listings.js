@@ -15,12 +15,8 @@ const listingSchema = new Schema({
     description:String,
     image:
     {
-        type:String,
-        default :
-        "https://www.holidify.com/images/bgImages/INDONESIA.jpg",
-        set: (v) => 
-            v === "" 
-        ? "https://www.holidify.com/images/bgImages/INDONESIA.jpg" : v,
+       url:String,
+       filename:String,
     },
     price:Number,
     location:String,

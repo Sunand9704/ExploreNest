@@ -125,3 +125,10 @@ body{
     padding-left: 0;
     padding-right: 0;
 }
+
+
+
+#map {
+    height: 300px; /* Adjust height as needed */
+    width: 100%;
+}
