@@ -4,9 +4,6 @@ if(process.env.NODE_ENV != "production")
     require('dotenv').config();
 }
 
-
-
-
 const express = require("express");
 const app=express();
 const port = 4000;
@@ -31,11 +28,14 @@ const user = require("./routes/user.js");
 const reviewRoutes = require("./routes/review.js");
 //sessions
 const sessions = require("express-session");
+const MongoStore = require('connect-mongo');
 const { max } = require("./schema.js");
 const flash = require("connect-flash");
 const passport = require("passport");
 const Localstratergy = require("passport-local");
 const User = require("./models/user.js");
+
+const dbURL = process.env.ATLASDB_URL;
 
 main().then(() => 
     {
@@ -44,16 +44,32 @@ main().then(() =>
     .catch(err => console.log(err));
     
     async function main() {
-      await mongoose.connect('mongodb://127.0.0.1:27017/ExploreNest');
+      await mongoose.connect(dbURL);
+    
+
     }
 
     // 1
 //1
+const store = MongoStore.create({
+    mongoUrl : dbURL,
+    crypto:
+    {
+        secret:process.env.SECRET,
+    },
+    touchAfter:24*3600,
+});
+
+store.on("error", () =>
+{
+    console.log("ERROR ON MONGO SESSION STORE", err);
+});
 
 
 const sessionopt=
 {
-    secret:"mysupersectercode",
+    store,
+    secret:process.env.SECRET,
     resave:false,
     saveUninitialized :true,
     Cookie : {
@@ -63,9 +79,11 @@ const sessionopt=
     },
 };
 
-app.get("/", (req,res) =>{
-    res.redirect("/listings");
-});
+
+
+// app.get("/", (req,res) =>{
+//     res.redirect("/listings");
+// });
 
 app.use(sessions(sessionopt));
 app.use(flash());

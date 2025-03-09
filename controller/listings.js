@@ -1,3 +1,7 @@
+const cloudinary = require("cloudinary").v2;  // ✅ Add this
+const { storage } = require("../cloudconfig"); // If you have cloudconfig.js
+const multer = require("multer");
+const upload = multer({ storage });
 const Listing = require("../models/listings.js");
 module.exports.index = async (req,res) => {
     let allistings = await Listing.find({});
@@ -49,16 +53,15 @@ module.exports.showlisting = async (req,res) =>{
 };
 //4 create listing
 module.exports.createlis = async (req, res, next) => {
-  let url = req.body.file;
-  let filename= req.body.file;
-
-  const newlisting = new Listing(req.body.listing);
-  newlisting.owner = req.user._id;
-  newlisting.image = {url,filename};
-  await newlisting.save();
-  req.flash("success", "New Listing Created");
-  res.redirect("/listings");
+    const result = await cloudinary.uploader.upload(req.file.path);  
+    const newlisting = new Listing(req.body.listing);
+    newlisting.owner = req.user._id;
+    newlisting.image = { url: result.secure_url, filename: result.public_id }; // ✅ Save correct Cloudinary URL
+    await newlisting.save();
+    req.flash("success", "New Listing Created");
+    res.redirect("/listings");
 };
+
 
 
 
@@ -86,9 +89,10 @@ const {id} = req.params;
 
 
     if(typeof req.file != "undefined"){
-    let imageUrl = req.file.path; 
-    let filename = req.file.filename; 
-    List.image= {url,filename};
+        const result = await cloudinary.uploader.upload(req.file.path);
+        List.image = { url: result.secure_url, filename: result.public_id };
+        await List.save();
+        
     await List.save();
     }
     req.flash("success", "Updated  Succrssfully");

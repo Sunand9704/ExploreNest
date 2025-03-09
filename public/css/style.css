@@ -131,4 +131,5 @@ body{
 #map {
     height: 300px; /* Adjust height as needed */
     width: 100%;
+    border: 1px solid rgb(127, 81, 81);
 }
