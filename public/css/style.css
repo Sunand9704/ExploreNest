@@ -114,6 +114,7 @@ body{
 .show-card
 {
     height: 30vh !important;
+    width: 30vh !important;
    
 }
 .btns

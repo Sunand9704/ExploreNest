@@ -2,12 +2,12 @@
 
     <div class="row mt-3">
       
-        <div class="col-8 offset-3" >        
+        <div class="col-6 offset-3" >        
          <h3><b><%= listing.title %></b><br></h3>
 
     
-            <div class="card col-6 nice-card listing-card "  >
-            <img src="<%= listing.image.url%>" class="card-img-top show-card " alt="...">
+            <div class="card col-15 nice-card listing-card "  >
+            <img src="<%= listing.image.url%>" class="card-img-top show-card" alt="...">
             <div class="card-body">
               <p class="card-text">Owned By
                 <i><%=listing.owner ? listing.owner.username : "Unknown Owner"%></i></p>
