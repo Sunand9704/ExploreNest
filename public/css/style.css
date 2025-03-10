@@ -76,8 +76,12 @@ body{
 {
     border: none !important;
     margin-bottom: 2rem;
+    
      
 }
+
+
+
 .card-img-top
 {
     border-radius: 1rem !important;
@@ -139,4 +143,28 @@ body{
     height: 300px; /* Adjust height as needed */
     width: 100%;
     border: 1px solid rgb(127, 81, 81);
+}
+
+
+
+.icon-slider {
+    overflow-x: auto;
+    white-space: nowrap;
+    scrollbar-width: none; /* Hide scrollbar */
+}
+
+.icons {
+    display: flex;
+    gap: 15px;
+    padding: 10px 0;
+}
+
+.icon-item {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    padding: 10px 15px;
+    background: #f5f5f5;
+    border-radius: 10px;
+    font-size: 14px;
 }

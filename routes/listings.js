@@ -18,6 +18,8 @@ router
 .get(wrapAsync(listingcontroller.index))
 .post(isloggedin, upload.single('listing[image]'), validateListing,wrapAsync(listingcontroller.createlis));
 
+//search route
+router.get("/search",wrapAsync(listingcontroller.searching));
  
 
  /// 4 NEW ROUTE
