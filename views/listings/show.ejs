@@ -1,8 +1,8 @@
 <% layout("/layouts/boilerplate") %>
 
     <div class="row mt-3">
-      
-        <div class="col-6 offset-3" >        
+      <div class="row col-lg-8 row-cols-md-7 offset-md-1 offset-md-2 offset-lg-2 mt-3" >
+        <!-- <div class="col-6 offset-3" >         -->
          <h3><b><%= listing.title %></b><br></h3>
 
     
@@ -34,8 +34,9 @@
 
         </div>
 
+        <div class="row col-lg-8 row-cols-md-7 offset-md-1 offset-md-2 offset-lg-2 mt-3" >
 
-        <div  class="col-8 offset-3 mb-3">
+        <!-- <div  class="col-8 offset-3 mb-3"> -->
           <% if(currenuser) {%>
             <hr/>
  
@@ -91,7 +92,8 @@
           <% } %>
 
         </div>
-        <div class="col-8 offset-3 mb-3">
+        <div class="row col-lg-8 row-cols-md-7 offset-md-1 offset-md-2 offset-lg-2 mt-3">
+        <!-- <div class="col-8 offset-3 mb-3"> -->
           <h3>Where you I'll be</h3>
           <div id="map"></div>
 
