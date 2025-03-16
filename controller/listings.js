@@ -3,6 +3,8 @@ const { storage } = require("../cloudconfig"); // If you have cloudconfig.js
 const multer = require("multer");
 const upload = multer({ storage });
 const Listing = require("../models/listings.js");
+const Book = require("../models/booking.js");
+
 module.exports.index = async (req,res) => {
     let allistings = await Listing.find({});
     res.render("listings/index.ejs", {allistings});
@@ -34,7 +36,8 @@ async (req,res) =>{
  //3 show route
 module.exports.showlisting = async (req,res) =>{
     const id = req.params.id;
-   let listing = await Listing.findById(id).populate({
+   let listing = await Listing.findById(id)
+    .populate({
        path:"reviews", 
        populate:{
        path:"author",
@@ -46,11 +49,11 @@ module.exports.showlisting = async (req,res) =>{
        res.redirect("/listings");
    
    }
-   listing.lat = listing.latitude || 0;
-   listing.lon = listing.longitude || 0;
    res.render("listings/show.ejs", {listing} );
    listing.save();
 };
+
+
 //4 create listing
 module.exports.createlis = async (req, res, next) => {
     const result = await cloudinary.uploader.upload(req.file.path);  
@@ -136,4 +139,63 @@ module.exports.searching = async (req ,res) => {
         console.error("Error in search:", err);
         res.status(500).send('Server Error');
   }
+};
+
+
+//booking
+module.exports.booking = async (req,res) =>
+{
+    let {id} = req.params;
+    let listing = await Listing.findById(id);
+    const today = new Date();
+    const yyyy = today.getFullYear();
+    const mm = String(today.getMonth() + 1).padStart(2, '0');
+    const dd = String(today.getDate()).padStart(2, '0');
+    const todayDate = `${yyyy}-${mm}-${dd}`;   
+    console.log(Date.now());
+    res.render("listings/booking.ejs",{listing, todayDate});
+};
+
+// module.exports.booking= async(req,res,)=>
+// {
+//     let {id} = req.params;
+//     let {checkin, checkout} = req.body;
+//     console.log(checkin,checkout);
+
+// }
+
+//booked
+
+ module.exports.booked = async (req, res) => {
+      
+    let {id} = req.params;
+    let {checkin, checkout,guest} = req.body;
+    console.log(checkin,checkout,guest);
+
+    ///
+    const checkinDate = new Date(checkin);
+const checkoutDate = new Date(checkout);
+//
+const today = new Date();
+const yyyy = today.getFullYear();
+const mm = String(today.getMonth() + 1).padStart(2, '0');
+const dd = String(today.getDate()).padStart(2, '0');
+const todayDate = `${yyyy}-${mm}-${dd}`;
+//
+    const listing = await Listing.findById(id);
+    const data = new Book({checkin,checkout});
+    if (checkinDate > checkoutDate || checkinDate < today) {
+        req.flash("error", "Please enter a valid date");
+        return res.redirect(`/listings/${id}/book`);
+    }    
+    else
+    {
+    await data.save();
+        // dates saved here
+
+    //calcu
+    let totalprice = listing.price*(guest/2);
+    req.flash("success", "booked");
+    res.render("listings/booked.ejs",{data,listing,totalprice,guest,});
+    }
 };

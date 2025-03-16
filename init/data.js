@@ -227,7 +227,7 @@ const sampleListings = [
     },
     price: 4000,
     location: "Scottish Highlands",
-    country: "United Kingdom",
+    country: "B",
   },
   {
     title: "Desert Oasis in Dubai",

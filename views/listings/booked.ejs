@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Booking Confirmed</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            padding: 40px;
+            background-color: #f7f7f7;
+        }
+        .confirmation-card {
+            background: #fff;
+            padding: 20px;
+            border-radius: 10px;
+            display: inline-block;
+            box-shadow: 0 4px 10px rgba(0,0,0,60);
+        }
+        .confirmation-card h1 {
+            color: #27ae60;
+        }
+        .confirmation-card p {
+            margin: 10px 0;
+        }
+        .confirmation-card a {
+            display: inline-block;
+            margin-top: 15px;
+            padding: 10px 20px;
+            background-color: #27ae60;
+            color: white;
+            border-radius: 5px;
+            text-decoration: none;
+        }
+    </style>
+</head>
+<body>
+    <div class="confirmation-card">
+        <h1>✅ Booking Confirmed!</h1>
+        <p>You've successfully booked:</p>
+        <h2><%= listing.title %></h2>
+        <p>From : <%= data.checkin.toISOString().split('T')[0] %></p>
+        
+        <p>To :
+            <%= data.checkout.toISOString().split('T')[0]  %>
+        </p>
+        <p>Location: <%= listing.location %>, <%= listing.country %></p>
+        <p>Price per night: ₹<%= listing.price %> </p>
+        <p>No.of Guests: <%= guest %> </p>
+        <b>Total: ₹<%= totalprice %> </b>
+        <br>
+
+        <a href="/listings">Back to Listings</a>
+    </div>
+</body>
+</html>

@@ -23,5 +23,4 @@ const reviewSchema = joi.object({
 });
 
 
-
 module.exports = {listingSchema,reviewSchema};

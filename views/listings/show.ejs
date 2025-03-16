@@ -23,12 +23,16 @@
 
           <% if(currenuser && currenuser._id.equals(listing.owner._id)) { %>
           <div class="btns">
-          <a class="btn btn-dark offset-3 sub-btn"  href="/listings/<%= listing._id %>/edit">Edit</a>
+
+          <a class="btn btn-dark offset-2 sub-btn"  href="/listings/<%= listing._id %>/edit">Edit</a>
               &nbsp;
              
               <form action="/listings/<%= listing._id %>?_method=DELETE" method="POST">
                 <button class="btn btn-dark offset-4">Delete</button>
                 </form>
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                <a class="btn btn-success offset-1 "  href="/listings/<%= listing._id %>/book">Book</a>
+
       </div>
       <% } %>
 

@@ -1,0 +1,98 @@
+<%- layout("./layouts/boilerplate.ejs") %>
+<style>
+    .payment-select, .input-field, .bank-select {
+        width: 100%;
+        padding: 10px;
+        margin-bottom: 10px;
+        border: 1px solid #ccc;
+        border-radius: 8px;
+        background: #f9f9f9;
+        font-size: 16px;
+    }
+
+    .payment-label {
+        font-weight: 600;
+        font-size: 18px;
+        margin-bottom: 5px;
+        display: block;
+    }
+
+    .hidden {
+        display: none;
+    }
+</style>
+<body>
+    <div class="row">
+    <div class="col-8 offset-2 mt-3">
+        <form action="/listings/<%= listing._id %>/booked" method="post" novalidate class="need-validation">
+            <!--check out date-->
+            <div class="mb-3">
+                <label for="checkin date" class="form-labael" >Check-In-Date</label>
+                <input placeholder="enter checkin date" class="form-control" name="checkin" type="date" min="<%= todayDate %>" required>    
+            </div>
+            <!--check out date-->
+            <div class="mb-3">
+                <label for="checkoutdate" class="form-labael" >Check-Out-Date</label>
+                <input placeholder="enter checkout date" class="form-control" name="checkout" type="date" min="<%= todayDate %>"  required>
+            </div>
+             <!--No of guests-->
+             <div class="mb-3">
+                <label for="Guestcount" class="form-labael" >Guests</label>
+                <input placeholder="enter No of fuests" class="form-control" name="guest" type="text" required>
+            </div>
+           <!--payment options-->
+           <div class="mb-3">
+            <label class="payment-label">Pay with</label>
+            <select class="payment-select" id="payment-method">
+                <option value="">Select Payment Method</option>
+                <option value="upi">UPI</option>
+                <option value="card">Credit/Debit Card</option>
+                <option value="netbanking">Net Banking</option>
+            </select>
+            
+            <!-- UPI Section -->
+            <div id="upi-section" class="hidden">
+                <input type="text" class="input-field" placeholder="Enter your UPI ID">
+            </div>
+            
+            <!-- Card Section -->
+            <div id="card-section" class="hidden">
+                <input type="text" class="input-field" placeholder="Card Number">
+                <input type="text" class="input-field" placeholder="Expiry (MM/YY)">
+                <input type="text" class="input-field" placeholder="CVV">
+            </div>
+            
+            <!-- Net Banking Section -->
+            <div id="netbanking-section" class="hidden">
+                <select class="bank-select">
+                    <option>Select Bank</option>
+                    <option>SBI</option>
+                    <option>HDFC</option>
+                    <option>ICICI</option>
+                    <option>Axis Bank</option>
+                </select>
+            </div>
+        </form>
+    </div>
+</div>
+</div>
+<script>
+    const paymentMethod = document.getElementById('payment-method');
+    const upiSection = document.getElementById('upi-section');
+    const cardSection = document.getElementById('card-section');
+    const netBankingSection = document.getElementById('netbanking-section');
+
+    paymentMethod.addEventListener('change', () => {
+        upiSection.classList.add('hidden');
+        cardSection.classList.add('hidden');
+        netBankingSection.classList.add('hidden');
+
+        if (paymentMethod.value === 'upi') {
+            upiSection.classList.remove('hidden');
+        } else if (paymentMethod.value === 'card') {
+            cardSection.classList.remove('hidden');
+        } else if (paymentMethod.value === 'netbanking') {
+            netBankingSection.classList.remove('hidden');
+        }
+    });
+</script>

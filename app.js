@@ -45,8 +45,6 @@ main().then(() =>
     
     async function main() {
       await mongoose.connect(dbURL);
-    
-
     }
 
     // 1
@@ -102,6 +100,7 @@ app.use((req,res,next) =>
 {
     res.locals.success = req.flash("success");
     res.locals.error = req.flash("error");
+    res.locals.booked = req.flash("booked");
     res.locals.currenuser = req.user;
     next();
 });
@@ -116,7 +115,6 @@ app.all("*", (req,res,next) =>
 {
     next(new ExpressError(404, "page Not Found"));
 });
-
 
 app.use((err, req,res, next) =>{
     let {statusCode=500, message="something Went wrong"} = err;
