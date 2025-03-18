@@ -9,6 +9,12 @@ const userSchema  =new Schema({
         type:String,
         required:true,
     },
+    fav: [
+      {
+          type: Schema.Types.ObjectId,
+          ref: "Fav",
+      }
+  ]
 });
 
 userSchema.plugin(passportLocalMongoose);

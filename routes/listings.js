@@ -33,14 +33,15 @@ router.route("/:id")
 
 //booking
 
-router.get("/:id/book", wrapAsync(listingcontroller.booking));
+router.get("/:id/book",isloggedin, wrapAsync(listingcontroller.booking));
 router.post("/:id/book", wrapAsync(listingcontroller.booking));
 router.post("/:id/booked", wrapAsync(listingcontroller.booked));
  
 
+
 //6 EDIT ROUTE
 router.get("/:id/edit",isloggedin,isowner,wrapAsync(listingcontroller.editform));
-
+//fav routes
 
 // const listings = [
 //     ["Cozy Beachfront Cottage", 34.0259, -118.7798],

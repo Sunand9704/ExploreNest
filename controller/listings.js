@@ -135,14 +135,14 @@ module.exports.searching = async (req ,res) => {
               listing.formattedPrice = listing.price.toLocaleString('en-IN', { style: 'currency', currency: 'INR' });
         });
         res.render("listings/search.ejs" , {allListings , query});
-  } catch (err) {
+        } catch (err) {
         console.error("Error in search:", err);
         res.status(500).send('Server Error');
   }
 };
 
 
-//booking
+//booking   
 module.exports.booking = async (req,res) =>
 {
     let {id} = req.params;
@@ -152,7 +152,6 @@ module.exports.booking = async (req,res) =>
     const mm = String(today.getMonth() + 1).padStart(2, '0');
     const dd = String(today.getDate()).padStart(2, '0');
     const todayDate = `${yyyy}-${mm}-${dd}`;   
-    console.log(Date.now());
     res.render("listings/booking.ejs",{listing, todayDate});
 };
 
@@ -170,20 +169,21 @@ module.exports.booking = async (req,res) =>
       
     let {id} = req.params;
     let {checkin, checkout,guest} = req.body;
-    console.log(checkin,checkout,guest);
-
     ///
     const checkinDate = new Date(checkin);
-const checkoutDate = new Date(checkout);
-//
-const today = new Date();
-const yyyy = today.getFullYear();
-const mm = String(today.getMonth() + 1).padStart(2, '0');
-const dd = String(today.getDate()).padStart(2, '0');
-const todayDate = `${yyyy}-${mm}-${dd}`;
+    const checkoutDate = new Date(checkout);
+    //
+    const today = new Date();
+    const yyyy = today.getFullYear();
+    const mm = String(today.getMonth() + 1).padStart(2, '0');
+    const dd = String(today.getDate()).padStart(2, '0');
+    const todayDate = `${yyyy}-${mm}-${dd}`;
 //
     const listing = await Listing.findById(id);
-    const data = new Book({checkin,checkout});
+    let user = req.user._id;
+    let place = listing._id;
+    const data = new Book({checkin,checkout,guest,userid:user,placeid:place});
+
     if (checkinDate > checkoutDate || checkinDate < today) {
         req.flash("error", "Please enter a valid date");
         return res.redirect(`/listings/${id}/book`);
@@ -199,3 +199,7 @@ const todayDate = `${yyyy}-${mm}-${dd}`;
     res.render("listings/booked.ejs",{data,listing,totalprice,guest,});
     }
 };
+
+
+
+

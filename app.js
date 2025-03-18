@@ -34,6 +34,8 @@ const flash = require("connect-flash");
 const passport = require("passport");
 const Localstratergy = require("passport-local");
 const User = require("./models/user.js");
+const Listing = require('./models/listings.js');
+const Book = require('./models/booking.js');
 
 const dbURL = process.env.ATLASDB_URL;
 
@@ -109,6 +111,18 @@ app.use((req,res,next) =>
 app.use("/listings" , listings);
 app.use("/listings/:id/reviews", reviewRoutes);
 app.use("/", user);
+
+
+app.get("/booking/remove/:id", async(req,res) =>
+{
+    let { id }= req.params;
+    console.log(id);
+    let data = await Book.findByIdAndDelete(id);
+    console.log("after deletion");
+    
+    
+    res.redirect("/bookings");
+});
 
 
 app.all("*", (req,res,next) =>

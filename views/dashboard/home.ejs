@@ -1,0 +1,84 @@
+<%- layout("./layouts/boilerplate.ejs") %>
+
+<style>
+    body {
+        background: #f9f9f9;
+    }
+
+    .dashboard-container {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        height: 100vh;
+    }
+
+    .dashboard-card {
+        background: #ffffff;
+        padding: 2rem;
+        border-radius: 15px;
+        box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+        width: 320px;
+        text-align: center;
+    }
+
+    .icon {
+        color: #ff4d4d;
+        font-size: 4.5rem;
+        margin-bottom: 1rem;
+    }
+
+    .nav-link {
+        display: block;
+        margin: 0.75rem 0;
+        font-weight: 600;
+        color: #333;
+        transition: all 0.3s ease;
+        text-decoration: none;
+    }
+
+    .nav-link:hover {
+        color: #ff4d4d;
+        transform: translateX(5px);
+    }
+
+    .profile-info {
+        margin: 1rem 0;
+        text-align: left;
+    }
+
+    .profile-info li {
+        margin: 0.5rem 0;
+        font-size: 0.95rem;
+        color: #555;
+        list-style: none;
+    }
+
+    .profile-info b {
+        color: #222;
+    }
+
+    h2 {
+        font-size: 1.3rem;
+        margin-bottom: 0.5rem;
+        color: #222;
+    }
+</style>
+
+<body>
+    <div class="dashboard-container">
+        <div class="dashboard-card">
+            <i class="fa-solid fa-user icon"></i>
+            <h2>Welcome, <%= currenuser.username %></h2>
+
+            <div class="profile-info">
+                <li>Name: <b><%= currenuser.username %></b></li>
+                <li>Email: <b><%= currenuser.email %></b></li>
+            </div>
+
+            <a class="nav-link" href="/bookings">My Bookings</a>
+            <a class="nav-link" href="/listings/new">Add New Place</a>
+            <a class="nav-link" href="/myfavorites">Favorites</a>
+            <a class="nav-link" href="/logout">Logout</a>
+        </div>
+    </div>
+</body>

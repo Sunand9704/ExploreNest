@@ -1,0 +1,118 @@
+<%- layout("./layouts/boilerplate.ejs") %>
+
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #f8f9fa;
+        }
+        .favorites-container {
+            max-width: 1200px;
+            margin: auto;
+            padding: 20px;
+        }
+        .card {
+            border-radius: 15px;
+            overflow: hidden;
+            transition: transform 0.3s ease-in-out, box-shadow 0.3s;
+            background: #fff;
+        }
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0px 4px 20px rgba(0, 0, 0, 0.1);
+        }
+        .card img {
+            height: 200px;
+            object-fit: cover;
+        }
+        .card-body {
+            padding: 15px;
+            text-align: center;
+        }
+        .card-title {
+            font-weight: bold;
+            font-size: 1.1rem;
+        }
+        .delete-btn {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background: rgba(255, 0, 0, 0.8);
+            border: none;
+            color: white;
+            padding: 6px 10px;
+            border-radius: 50%;
+            cursor: pointer;
+            transition: background 0.3s ease-in-out;
+        }
+        .delete-btn:hover {
+            background: red;
+        }
+        .btn-primary
+        {
+            margin-bottom: 1rem !important;
+        }
+    </style>
+<body>
+  
+
+    <div class="favorites-container">
+        <h2 class="text-center mb-4">My Favorite Places</h2>
+
+        <div class="row">
+            <% if (favo.length > 0) { %>
+                <% favo.forEach(fav => { %>
+                    <div class="col-md-4 mb-4">
+                        <div class="card shadow position-relative">
+                            <img src="<%= fav.place.image.url %>" class="card-img-top" alt="<%= fav.place.name %>">
+                            <div class="card-body">
+                                <h5 class="card-title"><%= fav.place.name %></h5>
+                                <p class="text-muted"><%= fav.place.description.substring(0, 80) %>...</p>
+                               <div class="lis">
+                                <a href="/listings/<%= fav.place._id %>" class="btn btn-primary">View Details</a>
+                               <div class="col-1 ms-auto">
+                                <button class="delete-btn" type="button" onclick="removeFavorite('<%= fav.id %>')">
+                                    <i class="fas fa-trash"></i>
+                                </button>
+                               </div>
+                               </div>
+                            </div>
+                        </div>
+                    </div>
+                <% }) %>
+            <% } else { %>
+                <p class="text-center text-muted">No favorites added yet.</p>
+            <% } %>
+        </div>
+    </div>
+
+    <script>
+        function removeFavorite(favId) {
+            fetch(`/favorites/remove/${favId}`, {
+                method: "DELETE",
+                headers: {
+                    "Content-Type": "application/json",
+                }
+            })
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error("Failed to delete favorite");
+                }
+                return response.json();
+            })
+            .then(data => {
+                if (data.success) {
+                   
+                    window.location.href = "/myfavorites";
+                    } else {
+                    alert("Error: " + data.message);
+                }
+            })
+            .catch(error => {
+                console.error("Error:", error);
+                
+            });
+        }
+    </script>
+    
+</body>
+</html>

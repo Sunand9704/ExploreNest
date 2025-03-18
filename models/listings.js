@@ -5,6 +5,7 @@ const Schema = mongoose.Schema;
 
 const Review = require("./review.js"); 
 const Book = require("./booking.js");
+const Fav = require("./fav.js");
 
 
 
@@ -35,11 +36,11 @@ const listingSchema = new Schema({
       ref:"User",
     },
     booking:
+    {
+      type:Schema.Types.ObjectId,    
+       ref:"Book",   
+    }, 
     
-        {
-          type:Schema.Types.ObjectId,
-          ref:"Book",
-        },
     
 
   
